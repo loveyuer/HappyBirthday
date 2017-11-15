@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <style>
+        body {
+            background-color: #efa1ef;
+            margin: 0;
+            padding: 0;
+            font-family: 'dulcinea';
+        }
+
+        p {
+            color: #fff;
+            font-size: 80px;
+            margin-top: -100px;
+            margin-left: -400px;
+            width: 900px;
+            height: 200px;
+            position: fixed;
+            left: 50%;
+            top: 40%;
+        }
+
+        @font-face {
+            font-family: 'dulcinea';
+            src: url('./dulcinea.otf') format('opentype');
+        }
+    </style>
+</head>
+<body id="particles">
+    <audio autoplay="autoplay" controls="controls" loop="loop" preload="auto" src="./brother.mp3" style="display:none;"></audio>
+    <p>Nana : Happy Birthday!</p>
+    <script src="particles-2.0.0.min.js"></script>
+    <script>
+        (function (window, document, undefined) {
+            var hearts = [];
+            window.requestAnimationFrame = (function () {
+                return window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                window.oRequestAnimationFrame ||
+                window.msRequestAnimationFrame ||
+                function (callback) {
+                    setTimeout(callback, 1000 / 60);
+                }
+            })();
+            init();
+            function init() {
+                css(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+                attachEvent();
+                gameloop();
+            }
+            function gameloop() {
+                for (var i = 0; i < hearts.length; i++) {
+                    if (hearts[i].alpha <= 0) {
+                        document.body.removeChild(hearts[i].el);
+                        hearts.splice(i, 1);
+                        continue;
+                    }
+                    hearts[i].y--;
+                    hearts[i].scale += 0.004;
+                    hearts[i].alpha -= 0.013;
+                    hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+                }
+                requestAnimationFrame(gameloop);
+            }
+            function attachEvent() {
+                var old = typeof window.onclick === "function" && window.onclick;
+                window.onclick = function (event) {
+                    old && old();
+                    createHeart(event);
+                }
+            }
+            function createHeart(event) {
+                var d = document.createElement("div");
+                d.className = "heart";
+                hearts.push({
+                    el: d,
+                    x: event.clientX - 5,
+                    y: event.clientY - 5,
+                    scale: 1,
+                    alpha: 1,
+                    color: randomColor()
+                });
+                document.body.appendChild(d);
+            }
+            function css(css) {
+                var style = document.createElement("style");
+                style.type = "text/css";
+                try {
+                    style.appendChild(document.createTextNode(css));
+                } catch (ex) {
+                    style.styleSheet.cssText = css;
+                }
+                document.getElementsByTagName('head')[0].appendChild(style);
+            }
+            function randomColor() {
+                return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+            }
+        })(window, document);
+        particlesJS('particles', { 'particles': { 'number': { 'value': 110, 'density': { 'enable': true, 'value_area': 800 } }, 'color': { 'value': '#fff' }, 'shape': { 'type': 'circle', 'stroke': { 'width': 7, 'color': '#fff' }, 'polygon': { 'nb_sides': 5 }, 'image': { 'src': 'img/github.svg', 'width': 100, 'height': 100 } }, 'opacity': { 'value': 0.5, 'random': false, 'anim': { 'enable': false, 'speed': 1, 'opacity_min': 0.1, 'sync': false } }, 'size': { 'value': 1, 'random': true, 'anim': { 'enable': false, 'speed': 20, 'size_min': 0.1, 'sync': false } }, 'line_linked': { 'enable': true, 'distance': 40, 'color': '#fff', 'opacity': 1, 'width': 1 }, 'move': { 'enable': true, 'speed': 3, 'direction': 'none', 'random': false, 'straight': false, 'out_mode': 'out', 'attract': { 'enable': false, 'rotateX': 600, 'rotateY': 1200 } } }, 'interactivity': { 'detect_on': 'canvas', 'events': { 'onhover': { 'enable': true, 'mode': 'grab' }, 'onclick': { 'enable': true, 'mode': 'push' }, 'resize': true }, 'modes': { 'grab': { 'distance': 120, 'line_linked': { 'opacity': 1 } }, 'bubble': { 'distance': 400, 'size': 40, 'duration': 2, 'opacity': 8, 'speed': 3 }, 'repulse': { 'distance': 300 }, 'push': { 'particles_nb': 4 }, 'remove': { 'particles_nb': 2 } } }, 'retina_detect': true, 'config_demo': { 'hide_card': false, 'background_color': '#b61924', 'background_image': '', 'background_position': '50% 50%', 'background_repeat': 'no-repeat', 'background_size': 'cover' } });
+    </script>
+</body>
+
+</html>
